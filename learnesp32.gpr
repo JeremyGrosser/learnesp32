@@ -2,7 +2,9 @@ with "config/learnesp32_config.gpr";
 project Learnesp32 is
 
    for Target use "riscv64-elf";
-   for Runtime ("Ada") use "light-rv32im";
+   for Runtime ("Ada") use "../bb-runtimes/install/light-rv32imc";
+
+   for Languages use ("Asm_Cpp", "C", "Ada");
    for Source_Dirs use (
       "src/",
       "src/svd",
@@ -15,7 +17,11 @@ project Learnesp32 is
    for Main use ("learnesp32.adb");
 
    package Compiler is
-      for Default_Switches ("Ada") use Learnesp32_Config.Ada_Compiler_Switches;
+      for Default_Switches ("Ada") use Learnesp32_Config.Ada_Compiler_Switches & (
+         "-g",
+         "-O0"
+      );
+      for Local_Configuration_Pragmas use "gnat.adc";
    end Compiler;
 
    package Binder is
@@ -25,5 +31,15 @@ project Learnesp32 is
    package Install is
       for Artifacts (".") use ("share");
    end Install;
+
+   package Linker is
+      for Switches ("Ada") use (
+         "-Wl,-T" & Project'Project_Dir & "ld/esp32c3.ld",
+         "-Wl,-T" & Project'Project_Dir & "ld/romfuncs.ld",
+         "-Wl,-T" & Project'Project_Dir & "ld/common.ld",
+         "-Wl,-print-memory-usage",
+         "-Wl,-Map=system.map"
+      );
+   end Linker;
 
 end Learnesp32;
