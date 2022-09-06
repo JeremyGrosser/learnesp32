@@ -36,21 +36,12 @@ _start:
     ori     t0, t0, 1
     csrrw   zero, mtvec, t0
 
-    /* Enable FPU */
-#ifdef __riscv_flen
-    li      t0, 0x6000
-    csrrs   t0, mstatus, t0
-#endif
-
     /* Set up the stack pointer */
     la sp,  __stack_top
 
-    call    syscalls_init
-
     /* Call main */
-    la      a0, _main_argc
-    lw      a0, 0(a0)
-    la      a1, _main_argv
+    li      a0, 0
+    li      a1, 0
     li      a2, 0
     call    main
     /*call    exit*/
@@ -75,16 +66,4 @@ _fini:
     .size  _init, .-_init
     .size  _fini, .-_fini
 
-    /* Default arguments for 'main' */
     .section .data
-    .global _main_argc
-    .weak _main_argc
-_main_argc:
-    .word 1
-_argv_0:
-    .string "test"
-    .global _main_argv
-    .weak _main_argv
-_main_argv:
-    .word _argv_0
-
