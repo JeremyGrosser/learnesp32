@@ -7,3 +7,6 @@ maintainers = ["Jeremy Grosser <jeremy@synack.me>"]
 maintainers-logins = ["JeremyGrosser"]
 
 executables = ["learnesp32"]
+
+[[depends-on]]
+gnat_riscv64_elf = "^12.1.2"
