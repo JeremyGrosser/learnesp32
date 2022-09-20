@@ -42,4 +42,32 @@ project Learnesp32 is
       );
    end Linker;
 
+   --  not currently used, just for reference
+   package Device_Configuration is
+      for CPU_Name use "rv32";
+      for Float_Handling use "soft";
+      for Number_Of_Interrupts use "31";
+      for Memories use ("irom", "drom", "ram", "rtc_ram");
+
+      for Boot_Memory use "irom";
+      for Main_Stack_Memory use "ram";
+      for Main_Stack_Size use "4K";
+
+      for Mem_Kind ("irom") use "rom";
+      for Address ("irom") use "0x42000000";
+      for Size ("irom") use "0x400000";
+
+      for Mem_Kind ("drom") use "rom";
+      for Address ("drom") use "0x3C000000";
+      for Size ("drom") use "0x400000";
+
+      for Mem_Kind ("ram") use "ram";
+      for Address ("ram") use "0x3FC80000";
+      for Size ("ram") use "0x50000";
+
+      for Mem_Kind ("rtc_ram") use "ram";
+      for Address ("rtc_ram") use "0x50000000";
+      for Size ("rtc_ram") use "0x2000";
+   end Device_Configuration;
+
 end Learnesp32;

@@ -38,6 +38,14 @@ SECTIONS
     *(.rodata1)
   }
 
+  .sdata :
+  {
+    __SDATA_BEGIN__ = .;
+    *(.srodata.cst16) *(.srodata.cst8) *(.srodata.cst4) *(.srodata.cst2) *(.srodata .srodata.*)
+    *(.sdata .sdata.* .gnu.linkonce.s.*)
+    *(.sdata2 .sdata2.* .gnu.linkonce.s2.*)
+  } > drom
+
   .init_array :
   {
     PROVIDE_HIDDEN (__init_array_start = .);
@@ -86,13 +94,6 @@ SECTIONS
   {
     *(.data1)
   }
-  .sdata :
-  {
-    __SDATA_BEGIN__ = .;
-    *(.srodata.cst16) *(.srodata.cst8) *(.srodata.cst4) *(.srodata.cst2) *(.srodata .srodata.*)
-    *(.sdata .sdata.* .gnu.linkonce.s.*)
-    *(.sdata2 .sdata2.* .gnu.linkonce.s2.*)
-  }
   . = ALIGN(4);
   _edata = .; PROVIDE (edata = .);
   _data_lma = ORIGIN(drom) + LOADADDR(.data);
@@ -118,6 +119,7 @@ SECTIONS
   _end = .; PROVIDE (end = .);
 
   /* Stack */
+  . = ALIGN(4);
   .stack :
   {
     __stack_bottom = .;

@@ -1,3 +1,11 @@
+    .section .data
+argv_str:
+    .ascii "main\0"
+    .align 4
+argv:
+    .word argv_str
+    .word 0
+
 .section .text.entry
     .type _entry, @function
     .global _entry
@@ -31,20 +39,20 @@ _start:
     li      a1, 0
     call    memset
 
+    /* Set up the stack pointer */
+    la sp,  __stack_top
+
     /* Set MTVEC */
     la      t0, _vector_table
     ori     t0, t0, 1
     csrrw   zero, mtvec, t0
 
-    /* Set up the stack pointer */
-    la sp,  __stack_top
-
     /* Call main */
-    li      a0, 0
-    li      a1, 0
-    li      a2, 0
+    la      a0, 1
+    la      a1, argv
     call    main
-    /*call    exit*/
+
+    mv t0, a0
 
 .global __gnat_exit
 __gnat_exit:
@@ -65,5 +73,3 @@ _fini:
 
     .size  _init, .-_init
     .size  _fini, .-_fini
-
-    .section .data

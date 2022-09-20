@@ -10,6 +10,7 @@ package body ESP32.UART is
       while not UART0_Periph.INT_RAW.TX_DONE_INT_RAW loop
          null;
       end loop;
+      UART0_Periph.INT_CLR.TX_DONE_INT_CLR := True;
    end Put;
 
    procedure Put (S : String) is
