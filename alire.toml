@@ -1,6 +1,7 @@
 name = "learnesp32"
 description = "Shiny new project"
 version = "0.1.0-dev"
+licenses = "Apache-2.0"
 
 authors = ["Jeremy Grosser"]
 maintainers = ["Jeremy Grosser <jeremy@synack.me>"]
